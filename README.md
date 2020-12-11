@@ -1,7 +1,8 @@
 gtk with rust
 ===
 
-https://gtk-rs.org/#using
+- https://gtk-rs.org/#using
 
-### dependencies
+### dev dependencies
 - libgtk-3-dev
+- https://gtk-rs.org/docs-src/tutorial/glade

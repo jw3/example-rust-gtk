@@ -5,5 +5,4 @@ authors = ["John Wass <wassj@ctc.com>"]
 edition = "2018"
 
 [dependencies]
-gtk = { version = "0.9.0", features = ["v3_16"] }
-gio = {version = "", features = ["v2_44"]}
+gtk = "^0.8.0"
