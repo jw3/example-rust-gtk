@@ -20,17 +20,16 @@
  */
 
 use gtk::{
+    prelude::BuilderExtManual,
+    Builder,
     Button,
     ButtonExt,
-    ContainerExt,
     Inhibit,
     Label,
     LabelExt,
     WidgetExt,
     Window,
-    WindowType,
 };
-use gtk::Orientation::Vertical;
 use relm_derive::Msg;
 use relm::{connect, Relm, Update, Widget, WidgetTest};
 
@@ -101,25 +100,16 @@ impl Widget for Win {
     }
 
     fn view(relm: &Relm<Self>, model: Self::Model) -> Self {
-        // Create the view using the normal GTK+ method calls.
-        let vbox = gtk::Box::new(Vertical, 0);
+        let glade_src = include_str!("window.glade");
+        let builder = Builder::new_from_string(glade_src);
 
-        let plus_button = Button::new_with_label("+");
-        vbox.add(&plus_button);
-
-        let counter_label = Label::new(Some("0"));
-        vbox.add(&counter_label);
-
-        let minus_button = Button::new_with_label("-");
-        vbox.add(&minus_button);
-
-        let window = Window::new(WindowType::Toplevel);
-
-        window.add(&vbox);
-
+        let window: Window = builder.get_object("window").unwrap();
         window.show_all();
 
-        // Send the message Increment when the button is clicked.
+        let plus_button: Button = builder.get_object("inc_button").unwrap();
+        let minus_button: Button = builder.get_object("dec_button").unwrap();
+        let counter_label: Label = builder.get_object("label").unwrap();
+
         connect!(relm, plus_button, connect_clicked(_), Msg::Increment);
         connect!(relm, minus_button, connect_clicked(_), Msg::Decrement);
         connect!(relm, window, connect_delete_event(_, _), return (Some(Msg::Quit), Inhibit(false)));
