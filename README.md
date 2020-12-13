@@ -1,4 +1,4 @@
-gtk with rust
+gtk, dbus, rust
 ===
 
 ### gtk
@@ -12,6 +12,9 @@ gtk with rust
 ### glade
 - https://gtk-rs.org/docs-src/tutorial/glade
 - https://snapcraft.io/glade
+
+### dbus
+- https://www.freedesktop.org/software/systemd/man/org.freedesktop.systemd1.html
 
 ### dev dependencies
 - libgtk-3-dev (3.22.x)

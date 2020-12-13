@@ -19,19 +19,22 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+use std::time::Duration;
+
+use dbus::blocking::Connection;
 use gtk::{
-    prelude::BuilderExtManual,
     Builder,
     Button,
     ButtonExt,
     Inhibit,
     Label,
     LabelExt,
+    prelude::BuilderExtManual,
     WidgetExt,
     Window,
 };
-use relm_derive::Msg;
 use relm::{connect, Relm, Update, Widget, WidgetTest};
+use relm_derive::Msg;
 
 struct Model {
     counter: i32,
@@ -80,11 +83,11 @@ impl Update for Win {
                 self.model.counter -= 1;
                 // Manually update the view.
                 label.set_text(&self.model.counter.to_string());
-            },
+            }
             Msg::Increment => {
                 self.model.counter += 1;
                 label.set_text(&self.model.counter.to_string());
-            },
+            }
             Msg::Quit => gtk::main_quit(),
         }
     }
@@ -135,5 +138,14 @@ impl WidgetTest for Win {
 }
 
 fn main() {
+    let dest = "org.freedesktop.systemd1";
+    let path = "/org/freedesktop/systemd1";
+    let interface = "org.freedesktop.systemd1.Manager";
+    let method = "Dump";
+    let conn = Connection::new_session().expect("dbus connection failed");
+    let proxy = conn.with_proxy(dest, path, Duration::from_millis(5000));
+    let (names, ): (String, ) = proxy.method_call(interface, method, ()).expect("dbus call failed");
+    println!("{}", names);
+
     Win::run(()).expect("Win::run failed");
 }
