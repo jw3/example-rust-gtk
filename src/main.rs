@@ -147,5 +147,7 @@ fn main() {
     let (names, ): (String, ) = proxy.method_call(interface, method, ()).expect("dbus call failed");
     println!("{}", names);
 
+    librpm::db::installed_packages().for_each(|p| println!("{}", p.name));
+
     Win::run(()).expect("Win::run failed");
 }

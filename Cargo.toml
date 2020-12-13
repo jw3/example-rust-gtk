@@ -16,3 +16,8 @@ features = ["v3_22"]
 [dependencies.gio]
 version = "^0.8.0"
 features = ["v2_44"]
+
+[dependencies.librpm]
+# need https://github.com/rpm-software-management/librpm.rs/pull/14
+git = "https://github.com/rpm-software-management/librpm.rs"
+branch = "master"
